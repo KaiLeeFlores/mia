@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Greeting</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+        }
+        .active {
+            display: flex;
+        }
+        .heart {
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+        }
+        .card {
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            max-width: 400px;
+            width: 90%;
+        }
+        .card img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .message {
+            font-style: italic;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #yesBtn {
+            background-color: green;
+            color: white;
+        }
+        #noBtn {
+            background-color: red;
+            color: white;
+            position: relative;
+        }
+        #continueBtn {
+            background-color: blue;
+            color: white;
+        }
+        .emoji {
+            font-size: 50px;
+            margin-top: 20px;
+            display: none;
+        }
+        .yesMessage {
+            display: none;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .jumpingGif {
+            width: 100px;
+            height: 100px;
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="page1" class="page active">
+        <h1>Tap the Heart!</h1>
+        <svg id="heart" class="heart" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="red" opacity="0"/>
+        </svg>
+        <p id="tapCount">Taps: 0 / 20</p>
+    </div>
+    <div id="page2" class="page">
+        <div class="card">
+            <img src="images/mia.jpg" alt="Birthday Image">
+            <h1>Happy Birthday!</h1>
+            <p class="message">I LOVE YOU EM BE! I AM ALWAYS PROUD YOU! THE INCREDIBLE WOMAN WHO FILLS MY HEART WITH JOY, LAUGHTER, AND ENDLESS LOVE. YOUR SMILE IS MY FAVORITE PART OF EVERY DAY, AND YOUR KINDNESS AND STRENGTH INSPIRE ME MORE THAN WORDS CAN SAY. I CAN'T WAIT TO CREATE MORE MEMORIES, SHARE MORE ADVENTURES, AND MAKE MORE DREAMS COME TRUE TOGETHER.</p>
+            <button id="continueBtn">Continue</button>
+        </div>
+    </div>
+    <div id="page3" class="page">
+        <div class="card">
+            <p>Do you like the website I made for you?</p>
+            <div class="buttons">
+                <button id="yesBtn">Yes</button>
+                <button id="noBtn">No</button>
+            </div>
+            <div class="emoji" id="happyEmoji">😊</div>
+            <p class="yesMessage" id="yesMessage">IM GLAD YOU LIKE IT EM BE!</p>
+            <img class="jumpingGif" id="jumpingGif" src="images/yey.jpg" alt="Jumping Sticker">
+        </div>
+    </div>
+
+    <script>
+        let tapCount = 0;
+        const heart = document.getElementById('heart').querySelector('path');
+        const tapCountDisplay = document.getElementById('tapCount');
+        const page1 = document.getElementById('page1');
+        const page2 = document.getElementById('page2');
+        const page3 = document.getElementById('page3');
+        const continueBtn = document.getElementById('continueBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const happyEmoji = document.getElementById('happyEmoji');
+        const yesMessage = document.getElementById('yesMessage');
+        const jumpingGif = document.getElementById('jumpingGif');
+
+        document.getElementById('heart').addEventListener('click', () => {
+            tapCount++;
+            tapCountDisplay.textContent = `Taps: ${tapCount} / 20`;
+            const fillOpacity = tapCount / 20;
+            heart.setAttribute('opacity', fillOpacity);
+            if (tapCount >= 20) {
+                setTimeout(() => {
+                    page1.classList.remove('active');
+                    page2.classList.add('active');
+                }, 500);
+            }
+        });
+
+        continueBtn.addEventListener('click', () => {
+            page2.classList.remove('active');
+            page3.classList.add('active');
+        });
+
+        yesBtn.addEventListener('click', () => {
+            happyEmoji.style.display = 'block';
+            yesMessage.style.display = 'block';
+            jumpingGif.style.display = 'block';
+        });
+
+        noBtn.addEventListener('click', () => {
+            const maxX = window.innerWidth - noBtn.offsetWidth;
+            const maxY = window.innerHeight - noBtn.offsetHeight;
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+            noBtn.style.position = 'absolute';
+        });
+    </script>
+</body>
+</html>
